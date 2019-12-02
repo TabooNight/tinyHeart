@@ -42,6 +42,7 @@ function init()
 
   // 创建海葵对象
   ane = new aneObj();
+  ane.init();
 }
 
 function gameloop()
@@ -50,4 +51,5 @@ function gameloop()
   var now = Date.now();
 
   drawBackground();
+  ane.draw();
 }
