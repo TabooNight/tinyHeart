@@ -12,21 +12,25 @@ var canHeight;
 var ctx1;
 var ctx2;
 
+// 时间
+var deltaTime; // 两次执行时间间隔
+var lastTime = Date.now(); // 最后一次执行时间
+
 // 背景图片
 var bgPic = new Image();
 
 // 海葵
 var ane;
+// 果实
+var fruit;
 
 // 开始游戏
-function game()
-{
+function game() {
   init();
   gameloop();
 }
 
-function init()
-{
+function init() {
   // 获得canvas context
   can1 = document.getElementById("canvas1"); // finshes, dust, UI, circle
   ctx1 = can1.getContext("2d");
@@ -43,13 +47,19 @@ function init()
   // 创建海葵对象
   ane = new aneObj();
   ane.init();
+
+  fruit = new fruitObj();
+  fruit.init();
 }
 
-function gameloop()
-{
+function gameloop() {
   window.requestAnimationFrame(gameloop); // setInterval, setTimeout, frame per second(fps)
   var now = Date.now();
+  deltaTime = now - lastTime;
+  lastTime = now;
 
   drawBackground();
   ane.draw();
+  fruitMonitor();
+  fruit.draw();
 }

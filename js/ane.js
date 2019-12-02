@@ -1,22 +1,18 @@
 // 海葵对象
-var aneObj = function()
-{
+var aneObj = function() {
   this.x = [];
   this.len = [];
 }
 // 海葵的数量
 aneObj.prototype.num = 50;
-aneObj.prototype.init = function()
-{
+aneObj.prototype.init = function() {
   for (var i = 0; i < this.num; i++)
   {
     this.x[i] = i * 16 + Math.random() * 20;
     this.len[i] = 200 + Math.random() * 50;
   }
-  console.log("a")
 }
-aneObj.prototype.draw = function()
-{
+aneObj.prototype.draw = function() {
   ctx2.save(); // 保存当前环境的状态
   ctx2.globalAlpha = 0.6; // 透明度
   ctx2.lineWidth = 20; // 线条长度
