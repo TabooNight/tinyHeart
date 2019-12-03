@@ -31,3 +31,23 @@
     }
   }
 })();
+
+function lerpAngle(a, b, t) {
+  var d = b - a;
+  if (d > Math.PI) d = d - 2 * Math.PI;
+  if (d < -Math.PI) d = d + 2 * Math.PI;
+  return a + d * t;
+}
+
+/*
+ * 函数说明：将当前值以一定的比例趋近于目标值
+ * 参数说明: aim-目标值 cur-当前值 ratio-比例
+ */
+function lerpDistance(aim, cur, ratio) {
+  var delta = cur - aim;
+  return aim + delta * ratio;
+}
+
+function calLength2(x1, y1, x2, y2) {
+  return Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2);
+}
