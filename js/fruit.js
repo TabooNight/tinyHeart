@@ -2,6 +2,7 @@ var fruitObj = function() {
   this.alive = [];
   this.x = [];
   this.y = [];
+  this.aneNo = [];
   this.l = [];
   this.spd = [];
   this.fruitType = [];
@@ -33,10 +34,13 @@ fruitObj.prototype.draw = function() {
       }
 
       if (this.l[i] <= 14) {
+        this.x[i] = ane.headx[this.aneNo[i]];
+        this.y[i] = ane.heady[this.aneNo[i]];
         this.l[i] += this.spd[i] * deltaTime;
       } else {
         this.y[i] -= this.spd[i] * 5 * deltaTime;
       }
+
       ctx2.drawImage(pic, this.x[i] - this.l[i] * 0.5, this.y[i] - this.l[i] * 0.5, this.l[i], this.l[i]);
       if (this.y[i] < 10) {
         this.alive[i] = false;
@@ -45,9 +49,7 @@ fruitObj.prototype.draw = function() {
   }
 }
 fruitObj.prototype.born = function(i) {
-  var aneID = Math.floor(Math.random() * ane.num);
-  this.x[i] = ane.x[aneID];
-  this.y[i] = canHeight - ane.len[aneID];
+  this.aneNo[i] = Math.floor(Math.random() * ane.num);
   this.l[i] = 0;
   this.alive[i] = true;
   var ran = Math.random();
@@ -65,7 +67,7 @@ function fruitMonitor() {
   for (var i = 0; i < fruit.num; i++) {
     if (fruit.alive[i]) num++;
   }
-  if (num < 20) {
+  if (num < 15) {
     sendFruid();
     return;
   }

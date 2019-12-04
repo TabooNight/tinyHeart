@@ -26,13 +26,41 @@ var fruit;
 
 // 大鱼
 var mon;
+// 大鱼尾巴序列帧
+var momTail = [];
+// 大鱼眼睛序列帧
+var momEye = [];
+// 大鱼橙色身体序列帧
+var momBodyOra = [];
+// 大鱼蓝色身体序列帧
+var momBodyBlue = [];
+
+
+// 小鱼
+var baby;
+// 小鱼尾巴序列帧
+var babyTail = [];
+// 小鱼眼睛序列帧
+var babyEye = [];
+// 小鱼身体序列帧
+var babyBody = [];
 
 // 鼠标
 var mx;
 var my;
 
-// 小鱼
-var baby;
+// 数据
+var data;
+
+// 大鱼吃果实特效
+var wave;
+
+// 大鱼喂小鱼特效
+var halo;
+
+// 漂浮物
+var dust;
+var dustPic = [];
 
 // 开始游戏
 function game() {
@@ -68,13 +96,66 @@ function init() {
   mom = new momObj();
   mom.init();
 
+  // 创建小鱼对象并初始化
+  baby = new babyObj();
+  baby.init();
+
   // 鼠标位置初始化
   mx = canWidth * 0.5;
   my = canHeight * 0.5;
 
-  // 创建小鱼对象并初始化
-  baby = new babyObj();
-  baby.init();
+  for (var i = 0; i < 8; i++) {
+    // 小鱼尾巴序列帧初始化
+    babyTail[i] = new Image();
+    babyTail[i].src = "./src/babyTail" + i + ".png";
+
+    // 大鱼尾巴序列帧初始化
+    momTail[i] = new Image();
+    momTail[i].src = "./src/bigTail" + i + ".png";
+  }
+  for (var i = 0; i < 2; i++) {
+    // 小鱼眼睛序列帧初始化
+    babyEye[i] = new Image();
+    babyEye[i].src = "./src/babyEye" + i + ".png";
+
+    // 大鱼眼睛序列帧初始化
+    momEye[i] = new Image();
+    momEye[i].src = "./src/bigEye" + i + ".png";
+  }
+  // 小鱼身体序列帧初始化
+  for (var i = 0; i < 20; i++) {
+    babyBody[i] = new Image();
+    babyBody[i].src = "./src/babyFade" + i + ".png";
+  }
+  // 大鱼身体序列帧初始化
+  for (var i = 0; i < 8; i++) {
+    momBodyOra[i] = new Image();
+    momBodyOra[i].src = "./src/bigSwim" + i + ".png";
+    momBodyBlue[i] = new Image();
+    momBodyBlue[i].src = "./src/bigSwimBlue" + i + ".png";
+  }
+
+  // 数据
+  data = new dataObj();
+
+  // 文本样式
+  ctx1.font = "30px Verdana";
+  ctx1.textAlign = "center";
+
+  // 大鱼吃果实特效初始化
+  wave = new waveObj();
+  wave.init();
+
+  // 大鱼喂小鱼特效初始化
+  halo = new haloObj();
+  halo.init();
+
+  dust = new dustObj();
+  dust.init();
+  for (var i = 0; i < 7; i++) {
+    dustPic[i] = new Image();
+    dustPic[i].src = "./src/dust" + i + ".png";
+  }
 }
 
 function gameloop() {
@@ -101,11 +182,23 @@ function gameloop() {
   momFrutisCollision();
   // 绘制小鱼
   baby.draw();
+  // 大鱼、小鱼碰撞检测
+  momBabyCollision();
+  // 绘制数据
+  data.draw();
+  // 绘制吃果实圆圈特效
+  wave.draw();
+  // 绘制喂食特效
+  halo.draw();
+  // 绘制漂浮物
+  dust.draw();
 }
 
 function onMouseMove(e) {
-  if (e.offSetX || e.layerX) {
-    mx = e.offSetX == undefined ? e.layerX : e.offSetX;
-    my = e.offSetY == undefined ? e.layerY : e.offSetY;
+  if (!data.gameOver) {
+    if (e.offSetX || e.layerX) {
+      mx = e.offSetX == undefined ? e.layerX : e.offSetX;
+      my = e.offSetY == undefined ? e.layerY : e.offSetY;
+    }
   }
 }
